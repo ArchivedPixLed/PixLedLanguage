@@ -1,4 +1,4 @@
-#include "math.h"
+#include "pmath.h"
 
 Lin::Lin(float alpha, float beta, Operator* x) : FirstOrderOperator(x){
 	this->alpha = alpha;

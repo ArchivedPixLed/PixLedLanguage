@@ -3,7 +3,7 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := led_parasol
+PROJECT_NAME := pixled
 
 include $(IDF_PATH)/make/project.mk
 

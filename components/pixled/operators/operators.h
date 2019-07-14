@@ -1,7 +1,6 @@
 #ifndef OPERATORS_H
 #define OPERATORS_H
 
-#include "LedStrip.h"
 #include <cmath>
 
 /**
@@ -10,12 +9,14 @@
 class Operator {
 	public:
 		virtual float yield()=0;
+//		virtual ~Operator() { };
 };
 
 class FirstOrderOperator : public Operator {
 	public:
 		FirstOrderOperator(Operator* p);
 		virtual float yield() = 0;
+//		~FirstOrderOperator();
 	protected:
 		Operator* p;
 };
@@ -24,6 +25,7 @@ class SecondOrderOperator : public FirstOrderOperator {
 	public:
 		SecondOrderOperator(Operator* p1, Operator* p2);
 		virtual float yield() = 0;
+//		~SecondOrderOperator();
 	protected:
 		Operator* p2;
 };

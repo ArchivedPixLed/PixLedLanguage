@@ -1,4 +1,7 @@
-#include "../operators.h"
+#ifndef PMATH_H
+#define PMATH_H
+
+#include "operators.h"
 
 /**
  * First order linear equation
@@ -20,4 +23,4 @@ class Lin2 : public SecondOrderOperator {
 	private:
 		float beta;
 };
-
+#endif //MATH_H

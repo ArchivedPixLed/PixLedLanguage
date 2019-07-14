@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <cmath>
 #include "pixled.h"
+#include "examples.h"
 
 #include "freertos/task.h"
+#include "esp_heap_caps.h"
 
 #define DATA_PIN 12
 #define NUM_LED 256
@@ -19,6 +21,7 @@ void app_main()
 
 	WS2812 strip = WS2812((gpio_num_t) DATA_PIN, NUM_LED, RMT_CHANNEL_1);
 
+	/*
 	// Global time
 	Integer t = Integer(0);		
 
@@ -38,7 +41,8 @@ void app_main()
 
 
 	Layer* layers[2] = {&background, &particle};
-	Sequence seq = Sequence(300, layers, 2);
+	Sequence seq = Sequence(layers, 2);
+	Integer duration = Integer(30);
 
 	// Background setup
 	Number speed = Number(1);
@@ -58,7 +62,20 @@ void app_main()
 	particle.setPosition(&particlePosition);
 	particle.setColor(&particleColor);
 
+	Integer endPos = Integer(NUM_LED);
+	Sup stopCondition = Sup(&particlePosition, &endPos);
+	seq.setStopCondition(&stopCondition);
+
 	seq.run(&strip);
+	*/
+	ESP_LOGI("MEM", "Init %i", heap_caps_get_free_size(MALLOC_CAP_8BIT));
+	Animation* animation = example1(NUM_LED);
+	ESP_LOGI("MEM", "Run %i", heap_caps_get_free_size(MALLOC_CAP_8BIT));
+	animation->run(&strip);
+	ESP_LOGI("MEM", "End %i", heap_caps_get_free_size(MALLOC_CAP_8BIT));
+
+	delete animation;
+	ESP_LOGI("MEM", "Clear %i", heap_caps_get_free_size(MALLOC_CAP_8BIT));
 
 	/*
 	while(particlePosition.yield() < NUM_LED) {

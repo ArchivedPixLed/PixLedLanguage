@@ -1,5 +1,4 @@
 #include "layer.h"
-#include "esp_log.h"
 
 int max(int v1, int v2) {
 	return v1 > v2 ? v1 : v2;
@@ -75,32 +74,6 @@ void Layer::initIndex() {
 	this->index.set(0);
 }
 
-
-/*
-void Layer::setPixel(uint16_t index, hsb_pixel hsb_pixel) {
-	this->pixels[index] = HSBtoRGB(hsb_pixel.hue, hsb_pixel.saturation, hsb_pixel.brightness);
+Layer::~Layer() {
+	ESP_LOGI("LAY", "Delete lay %p", this);
 }
-
-void Layer::setPixel(uint16_t index, rgb_pixel pixel) {
-	this->pixels[index] = pixel;
-}
-
-rgb_pixel Layer::getPixel(uint16_t index) {
-	return this->pixels[index];
-}
-*/
-
-/*
-void merge(Layer* layer1, Layer* layer2) {
-	int min_i = max(layer1->getPosition(), layer2->getPosition());
-
-	int max_i = min(
-			layer2->getPosition() + layer2->getPixelCount(),
-			layer1->getPosition() + layer1->getPixelCount()
-			);
-
-	for(int i = min_i; i < max_i; i ++) {
-		layer1->setPixel(i -  layer1->getPosition(), layer2->getPixel(i - layer2->getPosition()));
-	}
-}
-*/

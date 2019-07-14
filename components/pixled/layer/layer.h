@@ -1,4 +1,8 @@
-#include "LedStrip.h"
+#ifndef LAYER_H
+#define LAYER_H
+
+#include "layer.h"
+#include "operators.h"
 #include "numeric.h"
 #include "color.h"
 
@@ -12,11 +16,7 @@ public:
 	hsb* getColor();
 	Integer getIndex();
 	void initIndex();
-	/*
-	void setPixel(uint16_t index, hsb_pixel pixel);
-	void setPixel(uint16_t index, rgb_pixel pixel);
-	rgb_pixel getPixel(uint16_t index);
-	*/
+	~Layer();
 
 protected:
 	uint16_t pixelCount;
@@ -37,8 +37,4 @@ class BaseLayer {
 		Strip* strip;
 };
 
-
-/**
- * Merges layer2 into layer1
- */
-// void merge(Layer* layer1, Layer* layer2);
+#endif //LAYER_H
