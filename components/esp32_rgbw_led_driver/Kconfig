@@ -1,0 +1,22 @@
+menu "Led Strip Config"
+
+choice RGB_TO_RGBW_CONVERTER
+  prompt "RGB to RGBW converter"
+
+  help
+    - RGB_TO_RGBW_1 :
+        w = min(r, g, b)
+        r, g, b = r - w, g - w, b - w
+    - RGB_TO_RGBW_2 :
+        See https://stackoverflow.com/questions/40312216/converting-rgb-to-rgbw
+
+  default RGB_TO_RGBW_2
+
+  config RGB_TO_RGBW_1
+    bool "RGBtoRGBW1"
+  config RGB_TO_RGBW_2
+    bool "RGBtoRGBW2"
+
+endchoice
+
+endmenu

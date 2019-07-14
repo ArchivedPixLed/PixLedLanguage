@@ -1,0 +1,8 @@
+layer[NUM_LED] background
+background.color = hsb(-0.5t, 1, 0.4)
+
+layer[1] particle
+particleSpeed = 0.001 * t
+
+particle.position = particleSpeed * t
+particle.color = hsb((360 / NUM_LED) * particle.position, 1, 0.8)
