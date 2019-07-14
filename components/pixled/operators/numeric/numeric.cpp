@@ -42,6 +42,13 @@ float Product::yield() {
 	return this->p->yield() * this->p2->yield();
 };
 
+// Sum
+Sum::Sum(Operator* p1, Operator* p2) : SecondOrderOperator(p1, p2) { };
+
+float Sum::yield() {
+	return this->p->yield() + this->p2->yield();
+};
+
 // Comparison
 Comparison::Comparison(Operator* p1, Operator* p2) {
 	this->p1 = p1;

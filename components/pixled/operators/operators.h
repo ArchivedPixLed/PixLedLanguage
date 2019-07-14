@@ -9,7 +9,7 @@
 class Operator {
 	public:
 		virtual float yield()=0;
-//		virtual ~Operator() { };
+		virtual ~Operator() { };
 };
 
 class FirstOrderOperator : public Operator {

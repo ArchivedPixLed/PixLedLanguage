@@ -6,10 +6,13 @@
 
 class Animation {
 	public:
-		Animation(Sequence** sequences, size_t sequencesCount);
+		Animation(size_t sequencesCount);
+		void setSequences(Sequence** sequences);
+		Integer* getGlobalTime();
 		void run(Strip* strip);
 		~Animation();
 	private:
+		Integer globalTime;
 		Sequence** sequences;
 		size_t sequencesCount;
 };

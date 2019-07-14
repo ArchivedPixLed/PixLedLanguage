@@ -2,12 +2,14 @@
 
 Animation* example1(uint16_t numLed) {
 
+	Animation* example1 = new Animation(2);
+
 	// Background
 	Layer* background = new Layer(numLed);
 	Integer* backPos = new Integer(0);
 	background->setPosition(backPos);
 
-	// Particle
+	// Forward Particle
 	Layer* fParticle = new Layer(1);
 
 
@@ -18,8 +20,8 @@ Animation* example1(uint16_t numLed) {
 	Sequence* seq = new Sequence(layers, 2);
 
 	// Background setup
-	Number* speed = new Number(1);
-	Product* h = new Product(speed, seq->getLocalTime());
+	Number* speed = new Number(2);
+	Product* h = new Product(speed, example1->getGlobalTime());
 	Number* s = new Number(1);
 	Number* b = new Number(0.01);
 	hsb* color = new hsb(h, s, b);
@@ -40,13 +42,35 @@ Animation* example1(uint16_t numLed) {
 	Sup* stopCondition = new Sup(fParticlePosition, endPos);
 	seq->setStopCondition(stopCondition);
 
+	// Backward Particle
+	Layer* bParticle = new Layer(1);
+
 	Layer** layers2 = new Layer*[2];
 	layers2[0] = background;
-	layers2[1] = fParticle;
+	layers2[1] = bParticle;
 	Sequence* seq2 = new Sequence(layers2, 2);
 
-	Sequence** sequences = new Sequence*[1];
-	sequences[0] = seq;
 
-	return new Animation(sequences, 1);
+	// Backward Particle setup
+	Lin* bParticleSpeed = new Lin(-0.001, 0, seq2->getLocalTime());
+	Lin2* bParticlePosition = new Lin2(bParticleSpeed, numLed, seq2->getLocalTime());
+	bParticle->setPosition(bParticlePosition);
+
+	Lin* bph = new Lin(360 / numLed, 0, bParticlePosition);
+	Number* bps = new Number(1);
+	Number* bpb = new Number(0.9);
+	hsb* bParticleColor = new hsb(bph, bps, bpb);
+	bParticle->setColor(bParticleColor);
+
+	Integer* endPos2 = new Integer(0);
+	Inf* stopCondition2 = new Inf(bParticlePosition, endPos2);
+	seq2->setStopCondition(stopCondition2);
+
+	Sequence** sequences = new Sequence*[2];
+	sequences[0] = seq;
+	sequences[1] = seq2;
+
+	example1->setSequences(sequences);
+
+	return example1;
 }

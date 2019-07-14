@@ -11,7 +11,7 @@ class Sequence {
 		Sequence(Layer** layers, int layerCount);
 		void setStopCondition(Condition* stopCondition);
 		Integer* getLocalTime();
-		void run(Strip* strip);
+		void run(Strip* strip, Integer* globalTime);
 		~Sequence();
 	private:
 		Integer localTime;

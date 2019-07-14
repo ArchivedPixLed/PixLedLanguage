@@ -19,7 +19,7 @@ Integer* Sequence::getLocalTime() {
 	return &(this->localTime);
 }
 
-void Sequence::run(Strip* strip) {
+void Sequence::run(Strip* strip, Integer* globalTime) {
 	// Base layer
 	BaseLayer rendered_layer = BaseLayer(strip->pixelCount, strip);
 	while(!this->stopCondition->yield()) {
@@ -34,13 +34,16 @@ void Sequence::run(Strip* strip) {
 		strip->show();
 
 		this->localTime.increment(1);
+		globalTime->increment(1);
 	}
 };
 
 Sequence::~Sequence() {
 	ESP_LOGI("SEQ", "Delete seq %p", this);
+	/*
 	for(int i = 0; i < this->layerCount; i++) {
 		delete this->layers[i];
 	}
 	delete this->layers;
+	*/
 }

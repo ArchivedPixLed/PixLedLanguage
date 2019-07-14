@@ -41,6 +41,12 @@ class Product : public SecondOrderOperator {
 		float yield();
 };
 
+class Sum : public SecondOrderOperator {
+	public:
+		Sum(Operator* p1, Operator* p2);
+		float yield();
+};
+
 class Comparison : public Condition {
 	public:
 		Comparison(Operator* p1, Operator* p2);
