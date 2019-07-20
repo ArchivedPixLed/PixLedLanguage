@@ -1,8 +1,8 @@
 #ifndef NUMERIC_H
 #define NUMERIC_H
 
+#include <memory>
 #include "esp_log.h"
-
 #include "operators.h"
 #include "logic.h"
 
@@ -14,7 +14,6 @@ class Number : public Operator {
 		Number(float value);
 		float yield();
 		void set(float value);
-//		~Number() { };
 	private:
 		float value;
 };
@@ -30,48 +29,47 @@ class Integer : public Operator {
 		void increment(int value);
 		int get();
 		void set(int value);
-//		~Integer() { ESP_LOGI("INT", "Delete %p", this); };
 	private:
 		int value;
 };
 
 class Product : public SecondOrderOperator {
 	public:
-		Product(Operator* p1, Operator* p2);
+		Product(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2);
 		float yield();
 };
 
 class Sum : public SecondOrderOperator {
 	public:
-		Sum(Operator* p1, Operator* p2);
+		Sum(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2);
 		float yield();
 };
 
 class Comparison : public Condition {
 	public:
-		Comparison(Operator* p1, Operator* p2);
+		Comparison(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2);
 		virtual bool yield() = 0;
 //		~Comparison();
 	protected:
-		Operator* p1;
-		Operator* p2;
+		std::shared_ptr<Operator> p1;
+		std::shared_ptr<Operator> p2;
 };
 
 class Equal : public Comparison {
 	public:
-	   	Equal(Operator* p1, Operator* p2);
+	   	Equal(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2);
 		bool yield();
 };
 
 class Sup : public Comparison {
 	public:
-	   	Sup(Operator* p1, Operator* p2);
+	   	Sup(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2);
 		bool yield();
 };
 
 class Inf : public Comparison {
 	public:
-	   	Inf(Operator* p1, Operator* p2);
+	   	Inf(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2);
 		bool yield();
 };
 

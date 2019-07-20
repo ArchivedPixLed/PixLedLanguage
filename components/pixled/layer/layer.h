@@ -1,6 +1,7 @@
 #ifndef LAYER_H
 #define LAYER_H
 
+#include <memory>
 #include "layer.h"
 #include "operators.h"
 #include "numeric.h"
@@ -10,19 +11,19 @@ class Layer {
 public:
 	Layer(uint16_t pixelCount);
 	uint16_t getPixelCount();
-	void setPosition(Operator* position);
-	Operator* getPosition();
-	void setColor(hsb* color);
-	hsb* getColor();
-	Integer getIndex();
+	void setPosition(std::shared_ptr<Operator> position);
+	std::shared_ptr<Operator> getPosition();
+	void setColor(std::shared_ptr<hsb> color);
+	std::shared_ptr<hsb> getColor();
+	std::shared_ptr<Integer> getIndex();
 	void initIndex();
 	~Layer();
 
 protected:
 	uint16_t pixelCount;
-	Operator* position;
-	hsb* color;
-	Integer index;
+	std::shared_ptr<Operator> position;
+	std::shared_ptr<hsb> color;
+	std::shared_ptr<Integer> index;
 };
 
 class BaseLayer {

@@ -6,13 +6,12 @@
 
 class hsb {
 	public:
-		hsb(Operator* h, Operator* s, Operator* b);
+		hsb(std::shared_ptr<Operator> h, std::shared_ptr<Operator> s, std::shared_ptr<Operator> b);
 		rgb_pixel yield();
-//		~hsb();
 	private:
-		Operator* h;
-		Operator* s;
-		Operator* b;
+		std::shared_ptr<Operator> h;
+		std::shared_ptr<Operator> s;
+		std::shared_ptr<Operator> b;
 };
 
 #endif //COLOR_H

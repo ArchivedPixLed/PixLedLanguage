@@ -36,51 +36,39 @@ void Integer::set(int value) {
 };
 
 // Product
-Product::Product(Operator* p1, Operator* p2) : SecondOrderOperator(p1, p2) { };
+Product::Product(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2) : SecondOrderOperator(p1, p2) { };
 
 float Product::yield() {
-	return this->p->yield() * this->p2->yield();
+	return this->p.get()->yield() * this->p2.get()->yield();
 };
 
 // Sum
-Sum::Sum(Operator* p1, Operator* p2) : SecondOrderOperator(p1, p2) { };
+Sum::Sum(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2) : SecondOrderOperator(p1, p2) { };
 
 float Sum::yield() {
-	return this->p->yield() + this->p2->yield();
+	return this->p.get()->yield() + this->p2.get()->yield();
 };
 
 // Comparison
-Comparison::Comparison(Operator* p1, Operator* p2) {
+Comparison::Comparison(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2) {
 	this->p1 = p1;
 	this->p2 = p2;
 };
 
-/*
-Comparison::~Comparison() {
-	ESP_LOGI("NUM", "Delete comp %p", this);
-	if(this->p1) {
-		delete this->p1;
-	}
-	if(this->p2) {
-		delete this->p2;
-	}
-}
-*/
-
-Equal::Equal(Operator* p1, Operator* p2) : Comparison(p1, p2) { };
+Equal::Equal(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2) : Comparison(p1, p2) { };
 
 bool Equal::yield() {
-	return p1->yield() == p2->yield();
+	return p1.get()->yield() == p2.get()->yield();
 }
 
-Sup::Sup(Operator* p1, Operator* p2) : Comparison(p1, p2) { };
+Sup::Sup(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2) : Comparison(p1, p2) { };
 
 bool Sup::yield() {
-	return p1->yield() > p2->yield();
+	return p1.get()->yield() > p2.get()->yield();
 }
 
-Inf::Inf(Operator* p1, Operator* p2) : Comparison(p1, p2) { };
+Inf::Inf(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2) : Comparison(p1, p2) { };
 
 bool Inf::yield() {
-	return p1->yield() < p2->yield();
+	return p1.get()->yield() < p2.get()->yield();
 }

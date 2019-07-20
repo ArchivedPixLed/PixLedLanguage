@@ -1,32 +1,30 @@
+#include <memory>
 #include "animation.h"
 
 #define LOG_TAG "ANIMATION"
 
-Animation::Animation(size_t sequencesCount) {
-	this->sequencesCount = sequencesCount;
-	//this->globalTime = new Integer();
+Animation::Animation() {
+	this->globalTime.reset(new Integer(0));
+	ESP_LOGI("ANIM", "t %p", this->globalTime.get());
 }
 
-void Animation::setSequences(Sequence** sequences) {
-	this->sequences = sequences;
+void Animation::addSequence(std::shared_ptr<Sequence> sequence) {
+	this->sequences.push_back(sequence);
 }
 
-Integer* Animation::getGlobalTime() {
-	return &(this->globalTime);
+std::shared_ptr<Integer> Animation::getGlobalTime() {
+	return this->globalTime;
 }
 	
 void Animation::run(Strip* strip) {
 	ESP_LOGI(LOG_TAG, "Starting animation");
-	for(int i = 0; i < this->sequencesCount; i++) {
-		ESP_LOGI("ANIM", "Time : %f", this->globalTime.yield());
-		this->sequences[i]->run(strip, &(this->globalTime));
+	for(std::shared_ptr<Sequence> sequence : this->sequences) {
+		ESP_LOGI("ANIM", "Time : %f", this->globalTime.get()->yield());
+		sequence.get()->run(strip, this->globalTime);
 	}
 	ESP_LOGI(LOG_TAG, "Animation end");
 }
 
 Animation::~Animation() {
-	for(int i = 0; i < this->sequencesCount; i++) {
-		delete this->sequences[i];
-	}
-	delete this->sequences;
+	ESP_LOGI("ANIM", "Delete animation %p", this);
 }

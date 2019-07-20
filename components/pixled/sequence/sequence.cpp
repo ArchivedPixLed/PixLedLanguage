@@ -1,40 +1,40 @@
 #include "sequence.h"
 
-Sequence::Sequence(Layer** layers, int layerCount) {
-	this->layers = layers;
-	this->layerCount = layerCount;
-	ESP_LOGI("SEQ", "init %i", this->localTime.get());
+Sequence::Sequence() {
+	this->localTime = std::shared_ptr<Integer>(new Integer(0));
+	ESP_LOGI("SEQ", "init %i", this->localTime.get()->get());
 }
 
-Sequence::Sequence(Condition* stopCondition, Layer** layers, int layerCount)
-	: Sequence(layers, layerCount) {
+void Sequence::addLayer(std::shared_ptr<Layer> layer) {
+	this->layers.push_back(layer);
+}
+
+void Sequence::setStopCondition(std::shared_ptr<Condition> stopCondition) {
 	this->stopCondition = stopCondition;
 }
 
-void Sequence::setStopCondition(Condition* stopCondition) {
-	this->stopCondition = stopCondition;
+std::shared_ptr<Integer> Sequence::getLocalTime() {
+	return this->localTime;
 }
 
-Integer* Sequence::getLocalTime() {
-	return &(this->localTime);
-}
-
-void Sequence::run(Strip* strip, Integer* globalTime) {
+void Sequence::run(Strip* strip, std::shared_ptr<Integer> globalTime) {
 	// Base layer
 	BaseLayer rendered_layer = BaseLayer(strip->pixelCount, strip);
-	while(!this->stopCondition->yield()) {
-		ESP_LOGD("SEQ", "%i", this->localTime.get());
+	while(!this->stopCondition.get()->yield()) {
+		ESP_LOGD("SEQ", "gt: %i", globalTime.get()->get());
+		ESP_LOGD("SEQ", "lt: %i", this->localTime.get()->get());
 
-		for(int i = 0; i < layerCount; i++){
-			rendered_layer.merge(this->layers[i]);
+		for(std::shared_ptr<Layer> layer : this->layers) {
+			ESP_LOGD("SEQ", "merging %p", layer.get());
+			rendered_layer.merge(layer.get());
 		}
 
 		rendered_layer.render();
 
 		strip->show();
 
-		this->localTime.increment(1);
-		globalTime->increment(1);
+		this->localTime.get()->increment(1);
+		globalTime.get()->increment(1);
 	}
 };
 

@@ -1,76 +1,87 @@
+#include <memory>
 #include "examples.h"
 
 Animation* example1(uint16_t numLed) {
 
-	Animation* example1 = new Animation(2);
+	Animation* example1 = new Animation();
 
 	// Background
-	Layer* background = new Layer(numLed);
-	Integer* backPos = new Integer(0);
-	background->setPosition(backPos);
+	std::shared_ptr<Layer> background = std::shared_ptr<Layer>(new Layer(numLed));
+	std::shared_ptr<Integer> backPos = std::shared_ptr<Integer>(new Integer(0));
+	background.get()->setPosition(backPos);
 
 	// Forward Particle
-	Layer* fParticle = new Layer(1);
+	std::shared_ptr<Layer> fParticle = std::shared_ptr<Layer>(new Layer(1));
 
-
-	Layer** layers = new Layer*[2];
-	layers[0] = background;
-	layers[1] = fParticle;
-
-	Sequence* seq = new Sequence(layers, 2);
+	std::shared_ptr<Sequence> seq = std::shared_ptr<Sequence>(new Sequence());
+	seq.get()->addLayer(background);
+	seq.get()->addLayer(fParticle);
 
 	// Background setup
-	Number* speed = new Number(2);
-	Product* h = new Product(speed, example1->getGlobalTime());
-	Number* s = new Number(1);
-	Number* b = new Number(0.01);
-	hsb* color = new hsb(h, s, b);
+	std::shared_ptr<hsb> color = std::shared_ptr<hsb>(
+			new hsb(
+				std::shared_ptr<Product>(new Product(std::shared_ptr<Number>(new Number(2)), example1->getGlobalTime())),
+				std::shared_ptr<Number>(new Number(1)),
+				std::shared_ptr<Number>(new Number(0.01))
+				)
+			);
+	/*
+	std::shared_ptr<hsb> color = std::shared_ptr<hsb>(
+		new hsb(
+			std::shared_ptr<Product>(new Product(std::shared_ptr<Number>(new Number(2)), std::shared_ptr<Number>(new Number(4)))),
+			std::shared_ptr<Number>(new Number(1)),
+			std::shared_ptr<Number>(new Number(0.01))
+			)
+		);
+	*/
 	background->setColor(color);
 
 	// Forward Particle setup
-	Lin* fParticleSpeed = new Lin(0.001, 0, seq->getLocalTime());
-	Product* fParticlePosition = new Product(fParticleSpeed, seq->getLocalTime());
-	fParticle->setPosition(fParticlePosition);
+	std::shared_ptr<Lin> fParticleSpeed = std::shared_ptr<Lin>(new Lin(0.001, 0, seq.get()->getLocalTime()));
+	std::shared_ptr<Product> fParticlePosition = std::shared_ptr<Product>(new Product(fParticleSpeed, seq.get()->getLocalTime()));
+	fParticle.get()->setPosition(fParticlePosition);
 
-	Lin* ph = new Lin(360 / numLed, 0, fParticlePosition);
-	Number* ps = new Number(1);
-	Number* pb = new Number(0.9);
-	hsb* fParticleColor = new hsb(ph, ps, pb);
-	fParticle->setColor(fParticleColor);
+	std::shared_ptr<hsb> fParticleColor = std::shared_ptr<hsb>(
+			new hsb(
+				std::shared_ptr<Lin>(new Lin(360 / numLed, 0, fParticlePosition)),
+				std::shared_ptr<Number>(new Number(1)),
+				std::shared_ptr<Number>(new Number(0.9))
+				)
+			);
 
-	Integer* endPos = new Integer(numLed);
-	Sup* stopCondition = new Sup(fParticlePosition, endPos);
-	seq->setStopCondition(stopCondition);
+	fParticle.get()->setColor(fParticleColor);
+
+	std::shared_ptr<Integer> endPos = std::shared_ptr<Integer>(new Integer(numLed));
+	std::shared_ptr<Sup> stopCondition = std::shared_ptr<Sup>(new Sup(fParticlePosition, endPos));
+	seq.get()->setStopCondition(stopCondition);
 
 	// Backward Particle
-	Layer* bParticle = new Layer(1);
+	std::shared_ptr<Layer> bParticle = std::shared_ptr<Layer>(new Layer(1));
 
-	Layer** layers2 = new Layer*[2];
-	layers2[0] = background;
-	layers2[1] = bParticle;
-	Sequence* seq2 = new Sequence(layers2, 2);
+	std::shared_ptr<Sequence> seq2 = std::shared_ptr<Sequence>(new Sequence());
+	seq2.get()->addLayer(background);
+	seq2.get()->addLayer(bParticle);
 
 
 	// Backward Particle setup
-	Lin* bParticleSpeed = new Lin(-0.001, 0, seq2->getLocalTime());
-	Lin2* bParticlePosition = new Lin2(bParticleSpeed, numLed, seq2->getLocalTime());
-	bParticle->setPosition(bParticlePosition);
+	std::shared_ptr<Lin> bParticleSpeed = std::shared_ptr<Lin>(new Lin(-0.001, 0, seq2.get()->getLocalTime()));
+	std::shared_ptr<Lin2> bParticlePosition = std::shared_ptr<Lin2>(new Lin2(bParticleSpeed, numLed, seq2.get()->getLocalTime()));
+	bParticle.get()->setPosition(bParticlePosition);
 
-	Lin* bph = new Lin(360 / numLed, 0, bParticlePosition);
-	Number* bps = new Number(1);
-	Number* bpb = new Number(0.9);
-	hsb* bParticleColor = new hsb(bph, bps, bpb);
-	bParticle->setColor(bParticleColor);
+	std::shared_ptr<hsb> bParticleColor = std::shared_ptr<hsb>(
+		new hsb(
+			std::shared_ptr<Lin>(new Lin(360 / numLed, 0, bParticlePosition)),
+			std::shared_ptr<Number>(new Number(1)),
+			std::shared_ptr<Number>(new Number(0.9)))
+		);
+	bParticle.get()->setColor(bParticleColor);
 
-	Integer* endPos2 = new Integer(0);
-	Inf* stopCondition2 = new Inf(bParticlePosition, endPos2);
-	seq2->setStopCondition(stopCondition2);
+	std::shared_ptr<Integer> endPos2 = std::shared_ptr<Integer>(new Integer(0));
+	std::shared_ptr<Inf> stopCondition2 = std::shared_ptr<Inf>(new Inf(bParticlePosition, endPos2));
+	seq2.get()->setStopCondition(stopCondition2);
 
-	Sequence** sequences = new Sequence*[2];
-	sequences[0] = seq;
-	sequences[1] = seq2;
-
-	example1->setSequences(sequences);
+	example1->addSequence(seq);
+	example1->addSequence(seq2);
 
 	return example1;
 }

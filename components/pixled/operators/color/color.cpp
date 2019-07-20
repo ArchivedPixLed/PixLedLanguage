@@ -1,7 +1,7 @@
 #include "color.h"
 
 // Color
-hsb::hsb(Operator* h, Operator* s, Operator* b) {
+hsb::hsb(std::shared_ptr<Operator> h, std::shared_ptr<Operator> s, std::shared_ptr<Operator> b) {
 	this->h = h;
 	this->s = s;
 	this->b = b;
@@ -10,18 +10,3 @@ hsb::hsb(Operator* h, Operator* s, Operator* b) {
 rgb_pixel hsb::yield() {
 	return HSBtoRGB(abs((int) this->h->yield()) % 360, this->s->yield(), this->b->yield());
 }
-
-/*
-hsb::~hsb() {
-	ESP_LOGI("COL", "Delete color %p", this);
-	if(this->h) {
-		delete this->h;
-	}
-	if(this->s) {
-		delete this->s;
-	}
-	if(this->b) {
-		delete this->b;
-	}
-}
-*/

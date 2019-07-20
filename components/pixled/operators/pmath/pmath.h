@@ -1,6 +1,7 @@
 #ifndef PMATH_H
 #define PMATH_H
 
+#include <memory>
 #include "operators.h"
 
 /**
@@ -8,7 +9,7 @@
  */
 class Lin : public FirstOrderOperator {
 	public:
-		Lin(float alpha, float beta, Operator* x);
+		Lin(float alpha, float beta, std::shared_ptr<Operator> x);
 		float yield();
 	private:
 		float alpha;
@@ -18,7 +19,7 @@ class Lin : public FirstOrderOperator {
 
 class Lin2 : public SecondOrderOperator {
 	public:
-		Lin2(Operator* alpha, float beta, Operator* x);
+		Lin2(std::shared_ptr<Operator> alpha, float beta, std::shared_ptr<Operator> x);
 		float yield();
 	private:
 		float beta;

@@ -50,28 +50,28 @@ uint16_t Layer::getPixelCount() {
 	return this->pixelCount;
 }
 
-void Layer::setPosition(Operator* position) {
+void Layer::setPosition(std::shared_ptr<Operator> position) {
 	this->position = position;
 }
 
-Operator* Layer::getPosition() {
+std::shared_ptr<Operator> Layer::getPosition() {
 	return this->position;
 }
 
-void Layer::setColor(hsb* color) {
+void Layer::setColor(std::shared_ptr<hsb> color) {
 	this->color = color;
 }
 
-hsb* Layer::getColor() {
+std::shared_ptr<hsb> Layer::getColor() {
 	return this->color;
 }
 
-Integer Layer::getIndex() {
+std::shared_ptr<Integer> Layer::getIndex() {
 	return this->index;
 }
 
 void Layer::initIndex() {
-	this->index.set(0);
+	this->index = std::shared_ptr<Integer>(new Integer(0));
 }
 
 Layer::~Layer() {

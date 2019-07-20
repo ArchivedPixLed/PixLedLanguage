@@ -1,6 +1,7 @@
 #ifndef OPERATORS_H
 #define OPERATORS_H
 
+#include <memory>
 #include <cmath>
 
 /**
@@ -14,19 +15,17 @@ class Operator {
 
 class FirstOrderOperator : public Operator {
 	public:
-		FirstOrderOperator(Operator* p);
+		FirstOrderOperator(std::shared_ptr<Operator> p);
 		virtual float yield() = 0;
-//		~FirstOrderOperator();
 	protected:
-		Operator* p;
+		std::shared_ptr<Operator> p;
 };
 
 class SecondOrderOperator : public FirstOrderOperator {
 	public:
-		SecondOrderOperator(Operator* p1, Operator* p2);
+		SecondOrderOperator(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2);
 		virtual float yield() = 0;
-//		~SecondOrderOperator();
 	protected:
-		Operator* p2;
+		std::shared_ptr<Operator> p2;
 };
 #endif //OPERATORS_H
