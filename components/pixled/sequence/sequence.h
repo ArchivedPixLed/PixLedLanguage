@@ -6,6 +6,7 @@
 #include "layer.h"
 #include "logic.h"
 #include "numeric.h"
+#include "scope.h"
 
 class Sequence {
 	public:
@@ -15,10 +16,17 @@ class Sequence {
 		std::shared_ptr<Integer> getLocalTime();
 		void run(Strip* strip, std::shared_ptr<Integer> globalTime);
 		~Sequence();
+		LayerScope layerScope;
+		OperatorScope operatorScope;
+
 	private:
 		std::shared_ptr<Integer> localTime;
 		std::shared_ptr<Condition> stopCondition;
 		std::vector<std::shared_ptr<Layer>> layers;
+};
+
+class SequenceScope : public Scope<std::shared_ptr<Sequence>> {
+
 };
 
 #endif //SEQUENCE_H

@@ -6,6 +6,7 @@
 #include "operators.h"
 #include "numeric.h"
 #include "color.h"
+#include "scope.h"
 
 class Layer {
 public:
@@ -18,6 +19,8 @@ public:
 	std::shared_ptr<Integer> getIndex();
 	void initIndex();
 	~Layer();
+
+	OperatorScope operatorScope;
 
 protected:
 	uint16_t pixelCount;
@@ -36,6 +39,10 @@ class BaseLayer {
 		uint16_t pixelCount;
 		rgb_pixel* pixels;
 		Strip* strip;
+};
+
+class LayerScope : public Scope<std::shared_ptr<Layer>> {
+
 };
 
 #endif //LAYER_H

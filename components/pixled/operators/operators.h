@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <cmath>
+#include "scope.h"
 
 /**
  * Operator interface
@@ -27,5 +28,9 @@ class SecondOrderOperator : public FirstOrderOperator {
 		virtual float yield() = 0;
 	protected:
 		std::shared_ptr<Operator> p2;
+};
+
+class OperatorScope : public Scope<std::shared_ptr<Operator>> {
+
 };
 #endif //OPERATORS_H

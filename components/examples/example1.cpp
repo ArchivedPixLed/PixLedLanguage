@@ -10,11 +10,13 @@ Animation* example1(uint16_t numLed) {
 	std::shared_ptr<Integer> backPos = std::shared_ptr<Integer>(new Integer(0));
 	background.get()->setPosition(backPos);
 
+	example1->layerScope.define("background", background);
+
 	// Forward Particle
 	std::shared_ptr<Layer> fParticle = std::shared_ptr<Layer>(new Layer(1));
 
 	std::shared_ptr<Sequence> seq = std::shared_ptr<Sequence>(new Sequence());
-	seq.get()->addLayer(background);
+	seq.get()->addLayer(example1->layerScope.get("background"));
 	seq.get()->addLayer(fParticle);
 
 	// Background setup
