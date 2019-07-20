@@ -1,8 +1,21 @@
-layer[NUM_LED] background
-background.color = hsb(-0.5t, 1, 0.4)
+begin animation
+	def layer[NUM_LED] background
+		@color = hsb(-0.5 * T, i / NUM_LED, 0.4)
+	end
 
-layer[1] particle
-particleSpeed = 0.001 * t
+	begin sequence {background}
+		def layer[1] forwardParticle
+			@color = hsb((360 / NUM_LED) * @position, 1, 0.8)
+			speed = 0.001 * t
+			@position = speed * t
+		end
+	end [forwardParticle.position > NUM_LED]
 
-particle.position = particleSpeed * t
-particle.color = hsb((360 / NUM_LED) * particle.position, 1, 0.8)
+	begin sequence {background}
+		def layer[1] backwardParticle
+			@color = hsb((360 / NUM_LED) * @position, 1, 0.8)
+			speed = -0.001 * t
+			@position = speed * t
+		end
+	end [backwardParticle.position < 0]
+end

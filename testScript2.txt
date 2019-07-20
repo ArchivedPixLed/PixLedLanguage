@@ -1,0 +1,9 @@
+begin animation
+	begin sequence
+		def layer[16][16] rainbow_wave
+			center = [8, 8]
+			wave_hue = 360 * sinXT(4, 10)
+			@color = hsb(wave_hue(d([x, y], center), T), 1, 1) 
+		end
+	end [false]
+end
