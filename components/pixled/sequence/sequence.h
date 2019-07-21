@@ -14,7 +14,7 @@ class Sequence {
 		void addLayer(std::shared_ptr<Layer> layer);
 		void setStopCondition(std::shared_ptr<Condition> stopCondition);
 		std::shared_ptr<Integer> getLocalTime();
-		void run(Strip* strip, std::shared_ptr<Integer> globalTime);
+		void run(RenderingLayer* rendering_layer, std::shared_ptr<Integer> globalTime);
 		~Sequence();
 		LayerScope layerScope;
 		OperatorScope operatorScope;

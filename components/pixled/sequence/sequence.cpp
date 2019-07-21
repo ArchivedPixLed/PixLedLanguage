@@ -17,21 +17,20 @@ std::shared_ptr<Integer> Sequence::getLocalTime() {
 	return this->localTime;
 }
 
-void Sequence::run(Strip* strip, std::shared_ptr<Integer> globalTime) {
+void Sequence::run(RenderingLayer* rendering_layer, std::shared_ptr<Integer> globalTime) {
 	// Base layer
-	BaseLayer rendered_layer = BaseLayer(strip->pixelCount, strip);
 	while(!this->stopCondition.get()->yield()) {
 		ESP_LOGD("SEQ", "gt: %i", globalTime.get()->get());
 		ESP_LOGD("SEQ", "lt: %i", this->localTime.get()->get());
 
 		for(std::shared_ptr<Layer> layer : this->layers) {
 			ESP_LOGD("SEQ", "merging %p", layer.get());
-			rendered_layer.merge(layer.get());
+			rendering_layer->merge(layer.get());
 		}
 
-		rendered_layer.render();
+		rendering_layer->render();
 
-		strip->show();
+		rendering_layer->show();
 
 		this->localTime.get()->increment(1);
 		globalTime.get()->increment(1);

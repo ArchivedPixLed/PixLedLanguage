@@ -8,54 +8,107 @@ int min(int v1, int v2) {
 	return v1 < v2 ? v1 : v2;
 }
 
-BaseLayer::BaseLayer(uint16_t pixelCount, Strip* strip) {
-	this->pixelCount = pixelCount;
-	this->pixels = new rgb_pixel[pixelCount];
+// Rendering Layer
+RenderingLayer::RenderingLayer(uint16_t width, uint16_t height, Strip* strip) {
+	this->pixels = new rgb_pixel[width * height];
 	this->strip = strip;
-}//Layer
-
-uint16_t BaseLayer::getPixelCount() {
-	return this->pixelCount;
+	this->width = width;
+	this->height = height;
+	this->pixelCount = width * height;
+	uint16_t** mapping = new uint16_t*[width];
+	for(int i = 0; i < width; i++) {
+		mapping[i] = new uint16_t[height];
+		for(int j = 0; j < height; j++) {
+			mapping[i][j] = i + j * width;
+		}
+	}
+	this->mapping = mapping;
 }
 
-void BaseLayer::render() {
+void RenderingLayer::render() {
 	for(int i = 0; i < this->pixelCount; i++) {
 		this->strip->setPixel(i, this->pixels[i]);
 	}
 }
 
-void BaseLayer::merge(Layer* layer) {
-	int layerPosition = (int) layer->getPosition()->yield();
-	int min_i = max(
+void RenderingLayer::show() {
+	this->strip->show();
+}
+
+void RenderingLayer::merge(Layer* layer) {
+	int layerX = (int) layer->getX()->yield();
+	int min_x = max(
 			0,
-			layerPosition
+			layerX
 			);
-	int max_i = min(
-			layerPosition + layer->getPixelCount(),
-			this->getPixelCount()
+	int max_x = min(
+			layerX + layer->getWidth(),
+			this->getWidth()
 			);
 
-	for(int i = min_i; i < max_i; i ++) {
-//		layer->initIndex();
-		this->pixels[i] = layer->getColor()->yield();
+	int layerY = (int) layer->getY()->yield();
+	int min_y = max(
+			0,
+			layerY
+			);
+	int max_y = min(
+			layerY + layer->getHeight(),
+			this->getHeight()
+			);
+
+	for(int x = min_x; x < max_x; x++) {
+		for(int y = min_y; y < max_y; y++) {
+			this->pixels[this->getMapping()[x][y]] = layer->getColor()->yield();
+		}
 	}
-
 }
 
-Layer::Layer(uint16_t pixelCount) {
-	this->pixelCount = pixelCount;
+uint16_t RenderingLayer::getWidth() {
+	return this->width;
 }
 
-uint16_t Layer::getPixelCount() {
-	return this->pixelCount;
+uint16_t RenderingLayer::getHeight() {
+	return this->height;
 }
 
-void Layer::setPosition(std::shared_ptr<Operator> position) {
-	this->position = position;
+uint16_t** RenderingLayer::getMapping() {
+	return this->mapping;
 }
 
-std::shared_ptr<Operator> Layer::getPosition() {
-	return this->position;
+Layer::Layer(uint16_t width, uint16_t height) {
+	this->width = width;
+	this->height = height;
+	this->x.reset(new Integer(0));
+	this->y.reset(new Integer(0));
+}
+
+uint16_t Layer::getWidth() {
+	return this->width;
+}
+
+uint16_t Layer::getHeight() {
+	return this->height;
+}
+
+void Layer::setPosition(std::shared_ptr<Operator> x, std::shared_ptr<Operator> y) {
+	this->x = x;
+	this->y = y;
+}
+
+void Layer::setX(std::shared_ptr<Operator> x) {
+	this->x = x;
+}
+
+void Layer::setY(std::shared_ptr<Operator> y) {
+	this->y = y;
+}
+
+std::shared_ptr<Operator> Layer::getX() {
+	return this->x;
+}
+
+std::shared_ptr<Operator> Layer::getY() {
+	return this->y;
 }
 
 void Layer::setColor(std::shared_ptr<hsb> color) {
@@ -66,14 +119,10 @@ std::shared_ptr<hsb> Layer::getColor() {
 	return this->color;
 }
 
-std::shared_ptr<Integer> Layer::getIndex() {
-	return this->index;
-}
-
-void Layer::initIndex() {
-	this->index = std::shared_ptr<Integer>(new Integer(0));
-}
-
-Layer::~Layer() {
-	ESP_LOGI("LAY", "Delete lay %p", this);
+RenderingLayer::~RenderingLayer() {
+	ESP_LOGI("LAYER", "Deleting rendering layer...");
+	for(int i = 0; i < width; i++) {
+		delete this->mapping[i];
+	}
+	delete this->mapping;
 }

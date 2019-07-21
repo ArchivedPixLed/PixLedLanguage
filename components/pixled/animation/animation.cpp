@@ -17,10 +17,11 @@ std::shared_ptr<Integer> Animation::getGlobalTime() {
 }
 	
 void Animation::run(Strip* strip) {
+	RenderingLayer layer = RenderingLayer(256, 1, strip);
 	ESP_LOGI(LOG_TAG, "Starting animation");
 	for(std::shared_ptr<Sequence> sequence : this->sequences) {
 		ESP_LOGI("ANIM", "Time : %f", this->globalTime.get()->yield());
-		sequence.get()->run(strip, this->globalTime);
+		sequence.get()->run(&layer, this->globalTime);
 	}
 	ESP_LOGI(LOG_TAG, "Animation end");
 }

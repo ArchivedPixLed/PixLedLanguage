@@ -9,34 +9,44 @@
 #include "scope.h"
 
 class Layer {
-public:
-	Layer(uint16_t pixelCount);
-	uint16_t getPixelCount();
-	void setPosition(std::shared_ptr<Operator> position);
-	std::shared_ptr<Operator> getPosition();
-	void setColor(std::shared_ptr<hsb> color);
-	std::shared_ptr<hsb> getColor();
-	std::shared_ptr<Integer> getIndex();
-	void initIndex();
-	~Layer();
-
-	OperatorScope operatorScope;
-
-protected:
-	uint16_t pixelCount;
-	std::shared_ptr<Operator> position;
-	std::shared_ptr<hsb> color;
-	std::shared_ptr<Integer> index;
+	public:
+		Layer(uint16_t width, uint16_t height);
+		uint16_t getWidth();
+		uint16_t getHeight();
+		void setPosition(std::shared_ptr<Operator> x, std::shared_ptr<Operator> y);
+		void setX(std::shared_ptr<Operator> x);
+		void setY(std::shared_ptr<Operator> y);
+		std::shared_ptr<Operator> getX();
+		std::shared_ptr<Operator> getY();
+		void setColor(std::shared_ptr<hsb> color);
+		std::shared_ptr<hsb> getColor();
+	
+	protected:
+		uint16_t width;
+		uint16_t height;
+		std::shared_ptr<Operator> x;
+		std::shared_ptr<Operator> y;
+		std::shared_ptr<hsb> color;
+		std::shared_ptr<Integer> xIndex;
+		std::shared_ptr<Integer> yIndex;
 };
 
-class BaseLayer {
+class RenderingLayer {
 	public:
-		BaseLayer(uint16_t pixelCount, Strip* strip);
-		uint16_t getPixelCount();
-		void merge(Layer* layer);
+		RenderingLayer(uint16_t width, uint16_t height, Strip* strip);
 		void render();
+		void show();
+		void merge(Layer* layer);
+		uint16_t getWidth();
+		uint16_t getHeight();
+		uint16_t** getMapping();
+		~RenderingLayer();
+
 	protected:
 		uint16_t pixelCount;
+		uint16_t width;
+		uint16_t height;
+		uint16_t** mapping;
 		rgb_pixel* pixels;
 		Strip* strip;
 };

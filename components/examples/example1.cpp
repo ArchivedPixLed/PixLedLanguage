@@ -6,14 +6,16 @@ Animation* example1(uint16_t numLed) {
 	Animation* example1 = new Animation();
 
 	// Background
-	std::shared_ptr<Layer> background = std::shared_ptr<Layer>(new Layer(numLed));
+	std::shared_ptr<Layer> background = std::shared_ptr<Layer>(new Layer(numLed, 1));
+	/*
 	std::shared_ptr<Integer> backPos = std::shared_ptr<Integer>(new Integer(0));
-	background.get()->setPosition(backPos);
+	background.get()->setX(backPos);
+	*/
 
 	example1->layerScope.define("background", background);
 
 	// Forward Particle
-	std::shared_ptr<Layer> fParticle = std::shared_ptr<Layer>(new Layer(1));
+	std::shared_ptr<Layer> fParticle = std::shared_ptr<Layer>(new Layer(1, 1));
 
 	std::shared_ptr<Sequence> seq = std::shared_ptr<Sequence>(new Sequence());
 	seq.get()->addLayer(example1->layerScope.get("background"));
@@ -41,7 +43,7 @@ Animation* example1(uint16_t numLed) {
 	// Forward Particle setup
 	std::shared_ptr<Lin> fParticleSpeed = std::shared_ptr<Lin>(new Lin(0.001, 0, seq.get()->getLocalTime()));
 	std::shared_ptr<Product> fParticlePosition = std::shared_ptr<Product>(new Product(fParticleSpeed, seq.get()->getLocalTime()));
-	fParticle.get()->setPosition(fParticlePosition);
+	fParticle.get()->setX(fParticlePosition);
 
 	std::shared_ptr<hsb> fParticleColor = std::shared_ptr<hsb>(
 			new hsb(
@@ -58,7 +60,7 @@ Animation* example1(uint16_t numLed) {
 	seq.get()->setStopCondition(stopCondition);
 
 	// Backward Particle
-	std::shared_ptr<Layer> bParticle = std::shared_ptr<Layer>(new Layer(1));
+	std::shared_ptr<Layer> bParticle = std::shared_ptr<Layer>(new Layer(1, 1));
 
 	std::shared_ptr<Sequence> seq2 = std::shared_ptr<Sequence>(new Sequence());
 	seq2.get()->addLayer(background);
@@ -68,7 +70,7 @@ Animation* example1(uint16_t numLed) {
 	// Backward Particle setup
 	std::shared_ptr<Lin> bParticleSpeed = std::shared_ptr<Lin>(new Lin(-0.001, 0, seq2.get()->getLocalTime()));
 	std::shared_ptr<Lin2> bParticlePosition = std::shared_ptr<Lin2>(new Lin2(bParticleSpeed, numLed, seq2.get()->getLocalTime()));
-	bParticle.get()->setPosition(bParticlePosition);
+	bParticle.get()->setX(bParticlePosition);
 
 	std::shared_ptr<hsb> bParticleColor = std::shared_ptr<hsb>(
 		new hsb(
