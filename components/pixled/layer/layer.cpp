@@ -15,13 +15,32 @@ RenderingLayer::RenderingLayer(uint16_t width, uint16_t height, Strip* strip) {
 	this->width = width;
 	this->height = height;
 	this->pixelCount = width * height;
+	/*
 	uint16_t** mapping = new uint16_t*[width];
 	for(int i = 0; i < width; i++) {
 		mapping[i] = new uint16_t[height];
 		for(int j = 0; j < height; j++) {
-			mapping[i][j] = i + j * width;
+			mapping[i][j] = i * width + j;
 		}
 	}
+	*/
+	uint16_t** mapping = new uint16_t*[width];
+	for(int i = 0; i < width; i++) {
+		mapping[i] = new uint16_t[height];
+		if (i % 2 == 0) {
+			for(int j = 0; j < height; j++) {
+				mapping[i][j] = i * width + j;
+				ESP_LOGD("MAP", "%i %i : %i", i, j, mapping[i][j]);
+			}
+		}
+		else {
+			for(int j = 0; j < height; j++) {
+				mapping[i][height - 1 - j] = i * width + j;
+				ESP_LOGD("MAP", "%i %i : %i", i, j, mapping[i][height - 1 - j]);
+			}
+		}
+	}
+
 	this->mapping = mapping;
 }
 
@@ -59,8 +78,13 @@ void RenderingLayer::merge(Layer* layer) {
 	for(int x = min_x; x < max_x; x++) {
 		for(int y = min_y; y < max_y; y++) {
 			this->pixels[this->getMapping()[x][y]] = layer->getColor()->yield();
+			layer->getYIndex().get()->increment(1);
 		}
+		layer->getYIndex().get()->set(0);
+		layer->getXIndex().get()->increment(1);
 	}
+	layer->getXIndex().get()->set(0);
+
 }
 
 uint16_t RenderingLayer::getWidth() {
@@ -80,6 +104,8 @@ Layer::Layer(uint16_t width, uint16_t height) {
 	this->height = height;
 	this->x.reset(new Integer(0));
 	this->y.reset(new Integer(0));
+	this->xIndex.reset(new Integer(0));
+	this->yIndex.reset(new Integer(0));
 }
 
 uint16_t Layer::getWidth() {
@@ -109,6 +135,18 @@ std::shared_ptr<Operator> Layer::getX() {
 
 std::shared_ptr<Operator> Layer::getY() {
 	return this->y;
+}
+
+std::shared_ptr<Integer> Layer::getXIndex() {
+	return this->xIndex;
+}
+
+std::shared_ptr<Integer> Layer::getYIndex() {
+	return this->yIndex;
+}
+
+std::shared_ptr<Point> Layer::pointIndex() {
+	return std::shared_ptr<Point>(new Point(this->xIndex, this->yIndex));
 }
 
 void Layer::setColor(std::shared_ptr<hsb> color) {

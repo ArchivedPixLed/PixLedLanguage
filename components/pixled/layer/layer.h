@@ -18,6 +18,9 @@ class Layer {
 		void setY(std::shared_ptr<Operator> y);
 		std::shared_ptr<Operator> getX();
 		std::shared_ptr<Operator> getY();
+		std::shared_ptr<Integer> getXIndex();
+		std::shared_ptr<Integer> getYIndex();
+		std::shared_ptr<Point> pointIndex();
 		void setColor(std::shared_ptr<hsb> color);
 		std::shared_ptr<hsb> getColor();
 	

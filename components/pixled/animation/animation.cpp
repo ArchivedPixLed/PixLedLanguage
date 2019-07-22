@@ -3,7 +3,9 @@
 
 #define LOG_TAG "ANIMATION"
 
-Animation::Animation() {
+Animation::Animation(uint16_t width, uint16_t height) {
+	this->width = width;
+	this->height = height;
 	this->globalTime.reset(new Integer(0));
 	ESP_LOGI("ANIM", "t %p", this->globalTime.get());
 }
@@ -17,7 +19,7 @@ std::shared_ptr<Integer> Animation::getGlobalTime() {
 }
 	
 void Animation::run(Strip* strip) {
-	RenderingLayer layer = RenderingLayer(256, 1, strip);
+	RenderingLayer layer = RenderingLayer(this->width, this->height, strip);
 	ESP_LOGI(LOG_TAG, "Starting animation");
 	for(std::shared_ptr<Sequence> sequence : this->sequences) {
 		ESP_LOGI("ANIM", "Time : %f", this->globalTime.get()->yield());

@@ -9,7 +9,7 @@
 
 class Animation {
 	public:
-		Animation();
+		Animation(uint16_t width, uint16_t height);
 		void addSequence(std::shared_ptr<Sequence> sequence);
 		std::shared_ptr<Integer> getGlobalTime();
 		void run(Strip* strip);
@@ -19,6 +19,8 @@ class Animation {
 		OperatorScope operatorScope;
 
 	private:
+		uint16_t width;
+		uint16_t height;
 		std::shared_ptr<Integer> globalTime;
 		std::vector<std::shared_ptr<Sequence>> sequences;
 };

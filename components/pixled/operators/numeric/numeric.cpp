@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "numeric.h"
 #include "esp_log.h"
 
@@ -71,4 +73,23 @@ Inf::Inf(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2) : Compariso
 
 bool Inf::yield() {
 	return p1.get()->yield() < p2.get()->yield();
+}
+
+// Point
+Point::Point(std::shared_ptr<Operator> x, std::shared_ptr<Operator> y) {
+	this->x = x;
+	this->y = y;
+}
+
+// Distance
+Distance::Distance(std::shared_ptr<Point> p1, std::shared_ptr<Point> p2) {
+	this->p1 = p1;
+	this->p2 = p2;
+}
+
+float Distance::yield() {
+	return sqrt(
+		pow(p1.get()->x.get()->yield() - p2.get()->x.get()->yield(), 2) + 
+		pow(p1.get()->y.get()->yield() - p2.get()->y.get()->yield(), 2) 
+		);
 }

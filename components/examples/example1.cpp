@@ -3,14 +3,10 @@
 
 Animation* example1(uint16_t numLed) {
 
-	Animation* example1 = new Animation();
+	Animation* example1 = new Animation(256, 1);
 
 	// Background
 	std::shared_ptr<Layer> background = std::shared_ptr<Layer>(new Layer(numLed, 1));
-	/*
-	std::shared_ptr<Integer> backPos = std::shared_ptr<Integer>(new Integer(0));
-	background.get()->setX(backPos);
-	*/
 
 	example1->layerScope.define("background", background);
 

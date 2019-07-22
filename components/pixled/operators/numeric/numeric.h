@@ -73,4 +73,24 @@ class Inf : public Comparison {
 		bool yield();
 };
 
+
+class Point {
+	public:
+		Point(std::shared_ptr<Operator> x, std::shared_ptr<Operator> y);
+	
+		std::shared_ptr<Operator> x;
+		std::shared_ptr<Operator> y;
+};
+
+class Distance : public Operator {
+	public:
+		Distance(std::shared_ptr<Point> p1, std::shared_ptr<Point> p2);
+		float yield();
+	
+	private:
+		std::shared_ptr<Point> p1;
+		std::shared_ptr<Point> p2;
+};
+
+
 #endif //NUMERIC_H
