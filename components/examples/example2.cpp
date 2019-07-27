@@ -30,11 +30,11 @@ Animation* example2(uint16_t width, uint16_t height) {
 				)
 			);
 
-	std::shared_ptr<Sequence> seq = std::shared_ptr<Sequence>(new Sequence());
+	std::shared_ptr<Scene> seq = std::shared_ptr<Scene>(new Scene());
 	seq.get()->addLayer(example2->layerScope.get("background"));
 	seq.get()->setStopCondition(std::shared_ptr<Condition>(new False()));
 
-	example2->addSequence(seq);
+	example2->addScene(seq);
 
 	return example2;
 }

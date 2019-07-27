@@ -3,5 +3,6 @@
 
 #include "animation.h"
 #include "pmath.h"
+#include "sequence.h"
 
 #endif

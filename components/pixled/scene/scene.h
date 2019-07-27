@@ -1,5 +1,5 @@
-#ifndef SEQUENCE_H
-#define SEQUENCE_H
+#ifndef SCENE_H
+#define SCENE_H
 
 #include <memory>
 #include <vector>
@@ -8,14 +8,14 @@
 #include "numeric.h"
 #include "scope.h"
 
-class Sequence {
+class Scene {
 	public:
-		Sequence();
+		Scene();
 		void addLayer(std::shared_ptr<Layer> layer);
 		void setStopCondition(std::shared_ptr<Condition> stopCondition);
 		std::shared_ptr<Integer> getLocalTime();
 		void run(RenderingLayer* rendering_layer, std::shared_ptr<Integer> globalTime);
-		~Sequence();
+		~Scene();
 		LayerScope layerScope;
 		OperatorScope operatorScope;
 
@@ -25,7 +25,7 @@ class Sequence {
 		std::vector<std::shared_ptr<Layer>> layers;
 };
 
-class SequenceScope : public Scope<std::shared_ptr<Sequence>> {
+class SceneScope : public Scope<std::shared_ptr<Scene>> {
 
 };
 

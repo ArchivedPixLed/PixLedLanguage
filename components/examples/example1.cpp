@@ -13,7 +13,7 @@ Animation* example1(uint16_t numLed) {
 	// Forward Particle
 	std::shared_ptr<Layer> fParticle = std::shared_ptr<Layer>(new Layer(1, 1));
 
-	std::shared_ptr<Sequence> seq = std::shared_ptr<Sequence>(new Sequence());
+	std::shared_ptr<Scene> seq = std::shared_ptr<Scene>(new Scene());
 	seq.get()->addLayer(example1->layerScope.get("background"));
 	seq.get()->addLayer(fParticle);
 
@@ -58,7 +58,7 @@ Animation* example1(uint16_t numLed) {
 	// Backward Particle
 	std::shared_ptr<Layer> bParticle = std::shared_ptr<Layer>(new Layer(1, 1));
 
-	std::shared_ptr<Sequence> seq2 = std::shared_ptr<Sequence>(new Sequence());
+	std::shared_ptr<Scene> seq2 = std::shared_ptr<Scene>(new Scene());
 	seq2.get()->addLayer(background);
 	seq2.get()->addLayer(bParticle);
 
@@ -80,8 +80,8 @@ Animation* example1(uint16_t numLed) {
 	std::shared_ptr<Inf> stopCondition2 = std::shared_ptr<Inf>(new Inf(bParticlePosition, endPos2));
 	seq2.get()->setStopCondition(stopCondition2);
 
-	example1->addSequence(seq);
-	example1->addSequence(seq2);
+	example1->addScene(seq);
+	example1->addScene(seq2);
 
 	return example1;
 }

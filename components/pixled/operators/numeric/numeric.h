@@ -39,9 +39,21 @@ class Product : public SecondOrderOperator {
 		float yield();
 };
 
+class Div : public SecondOrderOperator {
+	public:
+		Div(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2);
+		float yield();
+};
+
 class Sum : public SecondOrderOperator {
 	public:
 		Sum(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2);
+		float yield();
+};
+
+class Dif : public SecondOrderOperator {
+	public:
+		Dif(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2);
 		float yield();
 };
 
@@ -91,6 +103,17 @@ class Distance : public Operator {
 		std::shared_ptr<Point> p1;
 		std::shared_ptr<Point> p2;
 };
+
+class Translate : public Point {
+	public:
+		Translate(
+			std::shared_ptr<Point> origin,
+			std::shared_ptr<Point> destination,
+			std::shared_ptr<Integer> clock,
+			std::shared_ptr<Integer> duration
+			);
+};
+
 
 
 #endif //NUMERIC_H

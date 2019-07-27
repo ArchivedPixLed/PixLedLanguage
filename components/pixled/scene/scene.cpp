@@ -1,23 +1,23 @@
-#include "sequence.h"
+#include "scene.h"
 
-Sequence::Sequence() {
+Scene::Scene() {
 	this->localTime = std::shared_ptr<Integer>(new Integer(0));
 	ESP_LOGI("SEQ", "init %i", this->localTime.get()->get());
 }
 
-void Sequence::addLayer(std::shared_ptr<Layer> layer) {
+void Scene::addLayer(std::shared_ptr<Layer> layer) {
 	this->layers.push_back(layer);
 }
 
-void Sequence::setStopCondition(std::shared_ptr<Condition> stopCondition) {
+void Scene::setStopCondition(std::shared_ptr<Condition> stopCondition) {
 	this->stopCondition = stopCondition;
 }
 
-std::shared_ptr<Integer> Sequence::getLocalTime() {
+std::shared_ptr<Integer> Scene::getLocalTime() {
 	return this->localTime;
 }
 
-void Sequence::run(RenderingLayer* rendering_layer, std::shared_ptr<Integer> globalTime) {
+void Scene::run(RenderingLayer* rendering_layer, std::shared_ptr<Integer> globalTime) {
 	// Base layer
 	while(!this->stopCondition.get()->yield()) {
 		ESP_LOGD("SEQ", "gt: %i", globalTime.get()->get());
@@ -37,7 +37,7 @@ void Sequence::run(RenderingLayer* rendering_layer, std::shared_ptr<Integer> glo
 	}
 };
 
-Sequence::~Sequence() {
+Scene::~Scene() {
 	ESP_LOGI("SEQ", "Delete seq %p", this);
 	/*
 	for(int i = 0; i < this->layerCount; i++) {

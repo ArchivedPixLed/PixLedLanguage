@@ -11,7 +11,7 @@ Animation* example3(uint16_t width, uint16_t height) {
 	std::shared_ptr<Layer> bg1 = std::shared_ptr<Layer>(new Layer(16, 16));
 	example3->layerScope.define("bg1", bg1);
 
-	std::shared_ptr<Sequence> seq1 = std::shared_ptr<Sequence>(new Sequence());
+	std::shared_ptr<Scene> seq1 = std::shared_ptr<Scene>(new Scene());
 
 	std::shared_ptr<Product> xCenter = std::shared_ptr<Product>(new Product(
 			std::shared_ptr<Number>(new Number(0.1)),
@@ -55,7 +55,7 @@ Animation* example3(uint16_t width, uint16_t height) {
 	std::shared_ptr<Layer> bg2 = std::shared_ptr<Layer>(new Layer(16, 16));
 	example3->layerScope.define("bg2", bg2);
 
-	std::shared_ptr<Sequence> seq2 = std::shared_ptr<Sequence>(new Sequence());
+	std::shared_ptr<Scene> seq2 = std::shared_ptr<Scene>(new Scene());
 
 	std::shared_ptr<Product> yCenter2 = std::shared_ptr<Product>(new Product(
 			std::shared_ptr<Number>(new Number(0.1)),
@@ -99,7 +99,7 @@ Animation* example3(uint16_t width, uint16_t height) {
 	std::shared_ptr<Layer> bg3 = std::shared_ptr<Layer>(new Layer(16, 16));
 	example3->layerScope.define("bg3", bg3);
 
-	std::shared_ptr<Sequence> seq3 = std::shared_ptr<Sequence>(new Sequence());
+	std::shared_ptr<Scene> seq3 = std::shared_ptr<Scene>(new Scene());
 
 	std::shared_ptr<Sum> xCenter3 = std::shared_ptr<Sum>(new Sum(
 				std::shared_ptr<Integer>(new Integer(16)),
@@ -146,7 +146,7 @@ Animation* example3(uint16_t width, uint16_t height) {
 	std::shared_ptr<Layer> bg4 = std::shared_ptr<Layer>(new Layer(16, 16));
 	example3->layerScope.define("bg4", bg4);
 
-	std::shared_ptr<Sequence> seq4 = std::shared_ptr<Sequence>(new Sequence());
+	std::shared_ptr<Scene> seq4 = std::shared_ptr<Scene>(new Scene());
 
 	std::shared_ptr<Sum> yCenter4 = std::shared_ptr<Sum>(new Sum(
 				std::shared_ptr<Integer>(new Integer(16)),
@@ -190,10 +190,10 @@ Animation* example3(uint16_t width, uint16_t height) {
 	/*
 	 * ANIMATION
 	 */
-	example3->addSequence(seq1);
-	example3->addSequence(seq2);
-	example3->addSequence(seq3);
-	example3->addSequence(seq4);
+	example3->addScene(seq1);
+	example3->addScene(seq2);
+	example3->addScene(seq3);
+	example3->addScene(seq4);
 
 	return example3;
 }

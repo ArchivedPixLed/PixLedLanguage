@@ -10,8 +10,8 @@ Animation::Animation(uint16_t width, uint16_t height) {
 	ESP_LOGI("ANIM", "t %p", this->globalTime.get());
 }
 
-void Animation::addSequence(std::shared_ptr<Sequence> sequence) {
-	this->sequences.push_back(sequence);
+void Animation::addScene(std::shared_ptr<Scene> scene) {
+	this->scenes.push_back(scene);
 }
 
 std::shared_ptr<Integer> Animation::getGlobalTime() {
@@ -21,9 +21,9 @@ std::shared_ptr<Integer> Animation::getGlobalTime() {
 void Animation::run(Strip* strip) {
 	RenderingLayer layer = RenderingLayer(this->width, this->height, strip);
 	ESP_LOGI(LOG_TAG, "Starting animation");
-	for(std::shared_ptr<Sequence> sequence : this->sequences) {
+	for(std::shared_ptr<Scene> scene : this->scenes) {
 		ESP_LOGI("ANIM", "Time : %f", this->globalTime.get()->yield());
-		sequence.get()->run(&layer, this->globalTime);
+		scene.get()->run(&layer, this->globalTime);
 	}
 	ESP_LOGI(LOG_TAG, "Animation end");
 }

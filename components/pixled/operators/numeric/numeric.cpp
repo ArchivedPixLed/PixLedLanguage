@@ -44,11 +44,25 @@ float Product::yield() {
 	return this->p.get()->yield() * this->p2.get()->yield();
 };
 
+// Div
+Div::Div(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2) : SecondOrderOperator(p1, p2) { };
+
+float Div::yield() {
+	return this->p.get()->yield() / this->p2.get()->yield();
+};
+
 // Sum
 Sum::Sum(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2) : SecondOrderOperator(p1, p2) { };
 
 float Sum::yield() {
 	return this->p.get()->yield() + this->p2.get()->yield();
+};
+
+// Sum
+Dif::Dif(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2) : SecondOrderOperator(p1, p2) { };
+
+float Dif::yield() {
+	return this->p.get()->yield() - this->p2.get()->yield();
 };
 
 // Comparison
@@ -93,3 +107,27 @@ float Distance::yield() {
 		pow(p1.get()->y.get()->yield() - p2.get()->y.get()->yield(), 2) 
 		);
 }
+
+// Translate
+Translate::Translate(
+			std::shared_ptr<Point> origin,
+			std::shared_ptr<Point> destination,
+			std::shared_ptr<Integer> clock,
+			std::shared_ptr<Integer> duration
+			)
+	: Point(
+		std::shared_ptr<Product>(
+			new Product(
+				std::shared_ptr<Div>(new Div(std::shared_ptr<Dif>(new Dif(destination.get()->x, origin.get()->x)), duration)),
+				std::shared_ptr<Dif>(new Dif(clock, std::shared_ptr<Integer>(new Integer(clock.get()->yield()))))
+				)
+			),
+		std::shared_ptr<Product>(
+			new Product(
+				std::shared_ptr<Div>(new Div(std::shared_ptr<Dif>(new Dif(destination.get()->y, origin.get()->y)), duration)),
+				std::shared_ptr<Dif>(new Dif(clock, std::shared_ptr<Integer>(new Integer(clock.get()->yield()))))
+				)
+			)
+		){};
+
+
