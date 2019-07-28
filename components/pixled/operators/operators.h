@@ -4,6 +4,7 @@
 #include <memory>
 #include <cmath>
 #include "scope.h"
+#include "esp_log.h"
 
 /**
  * Operator interface
@@ -11,7 +12,7 @@
 class Operator {
 	public:
 		virtual float yield()=0;
-		virtual ~Operator() { };
+		virtual ~Operator() {ESP_LOGI("OP", "delete %p", this); };
 };
 
 class FirstOrderOperator : public Operator {

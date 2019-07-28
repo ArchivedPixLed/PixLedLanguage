@@ -29,14 +29,24 @@ class Sequence : public Operator {
 		std::vector<std::shared_ptr<SequenceItem>> items;
 };
 
+class ConditionSequenceItem : public SequenceItem {
+	public:
+		ConditionSequenceItem(std::shared_ptr<Operator> op, std::shared_ptr<Condition> stopCondition);
+		void reset() {};
+		bool end();
+	private:
+		std::shared_ptr<Condition> stopCondition;
+};
+
 class TimedSequenceItem : public SequenceItem {
 	public:
-		TimedSequenceItem(std::shared_ptr<Operator>, std::shared_ptr<Integer> globalTime, uint16_t duration);
+		TimedSequenceItem(std::shared_ptr<Operator> op, std::shared_ptr<Integer> globalTime, std::shared_ptr<Integer> duration);
 		void reset();
 		bool end();
 	private:
-		uint16_t duration;
+		std::shared_ptr<Integer> duration;
 		std::shared_ptr<Integer> globalTime;
 		uint16_t begin = 0;
 };
+
 #endif

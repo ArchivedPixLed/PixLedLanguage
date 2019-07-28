@@ -23,7 +23,7 @@ void app_main()
 	WS2812 strip = WS2812((gpio_num_t) DATA_PIN, NUM_LED, RMT_CHANNEL_1);
 	while(true) {
 		ESP_LOGI("MEM", "Init %i", heap_caps_get_free_size(MALLOC_CAP_8BIT));
-		Animation* animation = example4(16, 16);
+		Animation* animation = example3(16, 16);
 		ESP_LOGI("MEM", "Run %i", heap_caps_get_free_size(MALLOC_CAP_8BIT));
 		animation->run(&strip);
 		ESP_LOGI("MEM", "End %i", heap_caps_get_free_size(MALLOC_CAP_8BIT));

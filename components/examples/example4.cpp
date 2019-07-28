@@ -14,7 +14,7 @@ Animation* example4(uint16_t width, uint16_t height) {
 			std::shared_ptr<TimedSequenceItem>(new TimedSequenceItem(
 					std::shared_ptr<Integer>(new Integer(0)),
 					example4->getGlobalTime(),
-					10
+					std::shared_ptr<Integer>(new Integer(10))
 					)
 				)
 			);
@@ -22,7 +22,7 @@ Animation* example4(uint16_t width, uint16_t height) {
 			std::shared_ptr<TimedSequenceItem>(new TimedSequenceItem(
 					std::shared_ptr<Integer>(new Integer(90)),
 					example4->getGlobalTime(),
-					10
+					std::shared_ptr<Integer>(new Integer(10))
 					)
 				)
 			);
@@ -31,7 +31,7 @@ Animation* example4(uint16_t width, uint16_t height) {
 			std::shared_ptr<TimedSequenceItem>(new TimedSequenceItem(
 					std::shared_ptr<Integer>(new Integer(180)),
 					example4->getGlobalTime(),
-					10
+					std::shared_ptr<Integer>(new Integer(10))
 					)
 				)
 			);
@@ -40,7 +40,7 @@ Animation* example4(uint16_t width, uint16_t height) {
 			std::shared_ptr<TimedSequenceItem>(new TimedSequenceItem(
 					std::shared_ptr<Integer>(new Integer(270)),
 					example4->getGlobalTime(),
-					10
+					std::shared_ptr<Integer>(new Integer(10))
 					)
 				)
 			);

@@ -24,4 +24,22 @@ class Lin2 : public SecondOrderOperator {
 	private:
 		float beta;
 };
+
+class Sin : public SecondOrderOperator {
+	public:
+		Sin(std::shared_ptr<Operator> amplitude, std::shared_ptr<Operator> arg);
+		float yield();
+};
+
+class Min : public SecondOrderOperator {
+	public:
+		Min(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2);
+		float yield();
+};
+
+class Max : public SecondOrderOperator {
+	public:
+		Max(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2);
+		float yield();
+};
 #endif //MATH_H

@@ -12,17 +12,20 @@ Animation* example2(uint16_t width, uint16_t height) {
 	background.get()->setColor(
 			std::shared_ptr<hsb>(
 				new hsb(
-					std::shared_ptr<Sum>(new Sum(
-						std::shared_ptr<Product>(new Product(
-							std::shared_ptr<Number>(new Number(5)),
-							background.get()->getYIndex()
+					std::shared_ptr<Sin>(new Sin(
+						std::shared_ptr<Number>(new Number(360)),
+						std::shared_ptr<Dif>(new Dif(
+							std::shared_ptr<Div>(new Div(
+								background.get()->getYIndex(),
+								std::shared_ptr<Number>(new Number(20))
+								)
+							),
+							std::shared_ptr<Div>(new Div(
+								example2->getGlobalTime(),
+								std::shared_ptr<Number>(new Number(30))
+								)
 							)
-						),
-						std::shared_ptr<Product>(new Product(
-							std::shared_ptr<Number>(new Number(-2)),
-							example2->getGlobalTime()
-							)
-						)
+						))
 					)),
 					std::shared_ptr<Number>(new Number(1)),
 					std::shared_ptr<Number>(new Number(0.01))

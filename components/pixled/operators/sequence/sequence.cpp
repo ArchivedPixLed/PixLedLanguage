@@ -29,6 +29,7 @@ float Sequence::yield() {
 }
 
 SequenceItem::SequenceItem(std::shared_ptr<Operator> op) {
+	ESP_LOGI("SEQ I", "new %p, %p", this, op.get());
 	this->op = op;
 }
 
@@ -36,7 +37,17 @@ float SequenceItem::yield() {
 	return this->op.get()->yield();
 }
 
-TimedSequenceItem::TimedSequenceItem(std::shared_ptr<Operator> op, std::shared_ptr<Integer> globalTime, uint16_t duration)
+ConditionSequenceItem::ConditionSequenceItem(std::shared_ptr<Operator> op, std::shared_ptr<Condition> stopCondition)
+	: SequenceItem(op) {
+	this->stopCondition = stopCondition;
+};
+
+bool ConditionSequenceItem::end() {
+	return this->stopCondition.get()->yield();
+};
+
+
+TimedSequenceItem::TimedSequenceItem(std::shared_ptr<Operator> op, std::shared_ptr<Integer> globalTime, std::shared_ptr<Integer> duration)
 	: SequenceItem(op) {
 		this->duration = duration;
 		this->globalTime = globalTime;
@@ -48,5 +59,6 @@ void TimedSequenceItem::reset() {
 }
 
 bool TimedSequenceItem::end() {
-	return (this->globalTime.get()->yield() - this->begin)>=this->duration;
+	return (this->globalTime.get()->yield() - this->begin)>=this->duration.get()->yield();
 }
+
