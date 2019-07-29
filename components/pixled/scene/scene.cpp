@@ -2,7 +2,7 @@
 
 Scene::Scene() {
 	this->localTime = std::shared_ptr<Integer>(new Integer(0));
-	ESP_LOGI("SEQ", "init %i", this->localTime.get()->get());
+	ESP_LOGI("SEQ", "init %li", this->localTime.get()->get());
 }
 
 void Scene::addLayer(std::shared_ptr<Layer> layer) {
@@ -20,8 +20,8 @@ std::shared_ptr<Integer> Scene::getLocalTime() {
 void Scene::run(RenderingLayer* rendering_layer, std::shared_ptr<Integer> globalTime) {
 	// Base layer
 	while(!this->stopCondition.get()->yield()) {
-		ESP_LOGD("SEQ", "gt: %i", globalTime.get()->get());
-		ESP_LOGD("SEQ", "lt: %i", this->localTime.get()->get());
+		ESP_LOGD("SEQ", "gt: %li", globalTime.get()->get());
+		ESP_LOGD("SEQ", "lt: %li", this->localTime.get()->get());
 
 		for(std::shared_ptr<Layer> layer : this->layers) {
 			ESP_LOGD("SEQ", "merging %p", layer.get());

@@ -15,7 +15,7 @@ void Number::set(float value) {
 	this->value = value;
 };
 
-Integer::Integer(int value) {
+Integer::Integer(long value) {
 	this->value = value;
 };
 
@@ -25,15 +25,15 @@ float Integer::yield() {
 	return this->value;
 };
 
-void Integer::increment(int value) {
+void Integer::increment(long value) {
 	this->value+=value;
 };
 
-int Integer::get() {
+long Integer::get() {
 	return this->value;
 };
 
-void Integer::set(int value) {
+void Integer::set(long value) {
 	this->value = value;
 };
 
@@ -55,7 +55,7 @@ float Div::yield() {
 Mod::Mod(std::shared_ptr<Operator> p1, std::shared_ptr<Operator> p2) : SecondOrderOperator(p1, p2) { };
 
 float Mod::yield() {
-	return (int) this->p.get()->yield() % (int) this->p2.get()->yield();
+	return (long) this->p.get()->yield() % (long) this->p2.get()->yield();
 };
 
 // Sum
@@ -131,7 +131,7 @@ TranslatedPoint::TranslatedPoint(std::shared_ptr<Integer> clock, std::shared_ptr
 }
 
 void TranslatedPoint::translateTo(std::shared_ptr<Operator> xDestination, std::shared_ptr<Operator> yDestination, std::shared_ptr<Integer> duration) {
-	this->duration.reset(new Integer((int) (duration.get()->yield() + this->duration.get()->yield())));
+	this->duration.reset(new Integer((long) (duration.get()->yield() + this->duration.get()->yield())));
 	std::shared_ptr<Sum> nextX = std::shared_ptr<Sum>(new Sum(
 				this->currentX,
 				std::shared_ptr<Product>(new Product(
@@ -211,59 +211,6 @@ void TranslatedPoint::stop() {
 				std::shared_ptr<False>(new False())
 				)));
 }
-
-/*
-std::shared_ptr<Point> Point::Translate(
-			std::shared_ptr<Point> origin,
-			std::shared_ptr<Point> destination,
-			std::shared_ptr<Integer> clock,
-			std::shared_ptr<Integer> duration
-			) {
-	std::shared_ptr<Operator> x = std::shared_ptr<Product>(
-				new Product(
-					std::shared_ptr<Div>(new Div(std::shared_ptr<Dif>(new Dif(destination.get()->x, origin.get()->x)), duration)),
-					std::shared_ptr<Dif>(new Dif(clock, std::shared_ptr<Integer>(new Integer(clock.get()->yield()))))
-					)
-				);
-	std::shared_ptr<Operator> y = std::shared_ptr<Product>(
-				new Product(
-					std::shared_ptr<Div>(new Div(std::shared_ptr<Dif>(new Dif(destination.get()->y, origin.get()->y)), duration)),
-					std::shared_ptr<Dif>(new Dif(clock, std::shared_ptr<Integer>(new Integer(clock.get()->yield()))))
-					)
-				);
-
-	std::vector<std::shared_ptr<SequenceItem>>* xSequence = new std::vector<std::shared_ptr<SequenceItem>>();
-	xSequence->push_back(std::shared_ptr<SequenceItem>(new ConditionSequenceItem(
-					x,
-					std::shared_ptr<Sup>(new Sup(x, destination.get()->x))
-					))
-			);
-	xSequence->push_back(std::shared_ptr<SequenceItem>(new ConditionSequenceItem(
-					destination.get()->x,
-					std::shared_ptr<False>(new False)
-					))
-			);
-
-	std::vector<std::shared_ptr<SequenceItem>>* ySequence = new std::vector<std::shared_ptr<SequenceItem>>();
-	ySequence->push_back(std::shared_ptr<SequenceItem>(new ConditionSequenceItem(
-					y,
-					std::shared_ptr<Sup>(new Sup(y, destination.get()->y))
-					))
-			);
-	ySequence->push_back(std::shared_ptr<SequenceItem>(new ConditionSequenceItem(
-					destination.get()->y,
-					std::shared_ptr<False>(new False)
-					))
-			);
-
-	return std::shared_ptr<Point>(new Point(
-		std::shared_ptr<Sequence>(new Sequence(*xSequence)),
-		std::shared_ptr<Sequence>(new Sequence(*ySequence))
-	));
-}
-*/
-
-
 
 // Distance
 Distance::Distance(std::shared_ptr<Point> p1, std::shared_ptr<Point> p2) {

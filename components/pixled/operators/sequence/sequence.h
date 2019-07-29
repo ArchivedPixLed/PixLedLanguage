@@ -46,7 +46,7 @@ class TimedSequenceItem : public SequenceItem {
 	private:
 		std::shared_ptr<Integer> duration;
 		std::shared_ptr<Integer> globalTime;
-		uint16_t begin = 0;
+		uint32_t begin = 0;
 };
 
 #endif

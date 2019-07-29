@@ -24,14 +24,14 @@ class Number : public Operator {
  */
 class Integer : public Operator {
 	public:
-		Integer(int value);
+		Integer(long value);
 		Integer();
 		float yield();
-		void increment(int value);
-		int get();
-		void set(int value);
+		void increment(long value);
+		long get();
+		void set(long value);
 	private:
-		int value;
+		long value;
 };
 
 class Product : public SecondOrderOperator {
