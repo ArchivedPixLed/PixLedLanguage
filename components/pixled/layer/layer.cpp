@@ -24,19 +24,19 @@ RenderingLayer::RenderingLayer(uint16_t width, uint16_t height, Strip* strip) {
 		}
 	}
 	*/
-	uint16_t** mapping = new uint16_t*[width];
-	for(int i = 0; i < width; i++) {
-		mapping[i] = new uint16_t[height];
+	uint16_t** mapping = new uint16_t*[height];
+	for(int i = 0; i < height; i++) {
+		mapping[i] = new uint16_t[width];
 		if (i % 2 == 0) {
-			for(int j = 0; j < height; j++) {
+			for(int j = 0; j < width; j++) {
 				mapping[i][j] = i * width + j;
-				ESP_LOGD("MAP", "%i %i : %i", i, j, mapping[i][j]);
+				ESP_LOGI("MAP", "%i %i : %i", i, j, mapping[i][j]);
 			}
 		}
 		else {
-			for(int j = 0; j < height; j++) {
-				mapping[i][height - 1 - j] = i * width + j;
-				ESP_LOGD("MAP", "%i %i : %i", i, j, mapping[i][height - 1 - j]);
+			for(int j = 0; j < width; j++) {
+				mapping[i][width - 1 - j] = i * width + j;
+				ESP_LOGI("MAP", "%i %i : %i", i, width - 1 - j, mapping[i][width - 1 - j]);
 			}
 		}
 	}
@@ -77,7 +77,7 @@ void RenderingLayer::merge(Layer* layer) {
 
 	for(int x = min_x; x < max_x; x++) {
 		for(int y = min_y; y < max_y; y++) {
-			this->pixels[this->getMapping()[x][y]] = layer->getColor()->yield();
+			this->pixels[this->getMapping()[y][x]] = layer->getColor()->yield();
 			layer->getYIndex().get()->increment(1);
 		}
 		layer->getYIndex().get()->set(0);
