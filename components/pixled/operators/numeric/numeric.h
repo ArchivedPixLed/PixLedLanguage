@@ -1,6 +1,16 @@
 #ifndef NUMERIC_H
 #define NUMERIC_H
 
+#define INT_T std::shared_ptr<Integer>
+#define INT(...) INT_T(new Integer(__VA_ARGS__))
+
+#define NUM_T std::shared_ptr<Number>
+#define NUM(...) NUM_T(new Number(__VA_ARGS__))
+
+#define PRODUCT_T std::shared_ptr<Product>
+#define PRODUCT(...) PRODUCT_T(new Product(__VA_ARGS__))
+
+
 #include <memory>
 #include "esp_log.h"
 #include "operators.h"

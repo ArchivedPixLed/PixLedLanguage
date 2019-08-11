@@ -12,7 +12,9 @@
 class Operator {
 	public:
 		virtual float yield()=0;
-		virtual ~Operator() {ESP_LOGI("OP", "delete %p", this); };
+		virtual ~Operator() {
+			// ESP_LOGI("OP", "delete %p", this);
+		};
 };
 
 class FirstOrderOperator : public Operator {

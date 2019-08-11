@@ -1,6 +1,9 @@
 #ifndef SCENE_H
 #define SCENE_H
 
+#define SCENE_T std::shared_ptr<Scene>
+#define SCENE(...) SCENE_T(new Scene(__VA_ARGS__))
+
 #include <memory>
 #include <vector>
 #include "layer.h"

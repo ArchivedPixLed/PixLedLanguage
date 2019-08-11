@@ -1,6 +1,9 @@
 #ifndef COLOR_H
 #define COLOR_H
 
+#define HSB_T std::shared_ptr<hsb>
+#define HSB(...) HSB_T(new hsb(__VA_ARGS__))
+
 #include "LedStrip.h"
 #include "operators.h"
 

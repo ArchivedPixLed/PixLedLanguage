@@ -27,18 +27,20 @@ RenderingLayer::RenderingLayer(uint16_t width, uint16_t height, Strip* strip) {
 	uint16_t** mapping = new uint16_t*[height];
 	for(int i = 0; i < height; i++) {
 		mapping[i] = new uint16_t[width];
-		if (i % 2 == 0) {
+	//	if (i % 2 == 0) {
 			for(int j = 0; j < width; j++) {
 				mapping[i][j] = i * width + j;
-				ESP_LOGI("MAP", "%i %i : %i", i, j, mapping[i][j]);
+//				ESP_LOGI("MAP", "%i %i : %i", i, j, mapping[i][j]);
 			}
-		}
+	//	}
+	/*
 		else {
 			for(int j = 0; j < width; j++) {
 				mapping[i][width - 1 - j] = i * width + j;
 				ESP_LOGI("MAP", "%i %i : %i", i, width - 1 - j, mapping[i][width - 1 - j]);
 			}
 		}
+		*/
 	}
 
 	this->mapping = mapping;
@@ -160,7 +162,7 @@ std::shared_ptr<hsb> Layer::getColor() {
 RenderingLayer::~RenderingLayer() {
 	ESP_LOGI("LAYER", "Deleting rendering layer...");
 	for(int i = 0; i < width; i++) {
-		delete this->mapping[i];
+		// delete this->mapping[i];
 	}
 	delete this->mapping;
 }

@@ -1,11 +1,11 @@
 #include "pixled.h"
 #include "examples.h"
 
-Animation* example5(uint16_t length) {
-	Animation* example5 = new Animation(16, 5);
+Animation* example5(uint16_t length, uint16_t branches, uint16_t duration) {
+	Animation* example5 = new Animation(length, branches);
 
 	std::vector<std::shared_ptr<Layer>>* layers = new std::vector<std::shared_ptr<Layer>>();
-	for(int i = 0; i < 5; i++) {
+	for(int i = 0; i < branches; i++) {
 		std::shared_ptr<Layer> layer = std::shared_ptr<Layer>(new Layer(length, 1));
 		layer.get()->setPosition(
 				std::shared_ptr<Integer>(new Integer(0)),
@@ -15,11 +15,11 @@ Animation* example5(uint16_t length) {
 	}
 
 	std::shared_ptr<Scene> seq = std::shared_ptr<Scene>(new Scene());
-	for(int i = 0; i < 5; i++) {
+	for(int i = 0; i < branches; i++) {
 		seq.get()->addLayer(layers->at(i));
 	}
 
-	for(int i = 0; i < 5; i++) {
+	for(int i = 0; i < branches; i++) {
 		int init;
 		int max;
 		if(i % 2) {
@@ -55,17 +55,17 @@ Animation* example5(uint16_t length) {
 						std::shared_ptr<Integer>(new Integer(360)),
 							std::shared_ptr<Div>(new Div(
 								std::shared_ptr<Distance>(new Distance(layers->at(i).get()->pointIndex(), center)),
-								std::shared_ptr<Number>(new Number(12))
+								std::shared_ptr<Number>(new Number(10))
 								)
 							)
 					)),
 					std::shared_ptr<Lin2>(new Lin2(
-						std::shared_ptr<Number>(new Number(-0.06)),
+						std::shared_ptr<Number>(new Number(-0.03)),
 						1,
 						std::shared_ptr<Distance>(new Distance(layers->at(i).get()->pointIndex(), center))
 					)),
 					std::shared_ptr<Lin2>(new Lin2(
-						std::shared_ptr<Number>(new Number(-0.09)),
+						std::shared_ptr<Number>(new Number(-0.03)),
 						1,
 						std::shared_ptr<Distance>(new Distance(layers->at(i).get()->pointIndex(), center))
 					))
@@ -75,7 +75,11 @@ Animation* example5(uint16_t length) {
 
 	}
 
-	seq.get()->setStopCondition(std::shared_ptr<False>(new False()));
+//	seq.get()->setStopCondition(std::shared_ptr<False>(new False()));
+	seq.get()->setStopCondition(std::shared_ptr<Sup>(new Sup(
+					example5->getGlobalTime(),
+					std::shared_ptr<Integer>(new Integer(duration))
+					)));
 
 	example5->addScene(seq);
 

@@ -1,6 +1,9 @@
 #ifndef LAYER_H
 #define LAYER_H
 
+#define LAYER_T std::shared_ptr<Layer>
+#define LAYER(...) LAYER_T(new Layer(__VA_ARGS__))
+
 #include <memory>
 #include "layer.h"
 #include "operators.h"
