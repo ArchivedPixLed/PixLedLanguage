@@ -1,3 +1,4 @@
 build
+test/build
 sdkconfig
 sdkconfig.old
